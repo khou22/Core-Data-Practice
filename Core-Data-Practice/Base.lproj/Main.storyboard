@@ -27,10 +27,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1Wy-WR-f2G" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="1aE-vF-Rxi"/>
                             <constraint firstItem="1Wy-WR-f2G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="774-A4-H4h"/>
                             <constraint firstAttribute="trailing" secondItem="1Wy-WR-f2G" secondAttribute="trailing" id="BAF-5p-V2E"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1Wy-WR-f2G" secondAttribute="bottom" id="eg2-ye-lyE"/>
+                            <constraint firstItem="1Wy-WR-f2G" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="D58-q5-cHN"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1Wy-WR-f2G" secondAttribute="bottom" id="a59-2m-81i"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Gn4-rU-HhD">

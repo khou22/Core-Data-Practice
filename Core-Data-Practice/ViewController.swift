@@ -27,6 +27,29 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
 
     @IBAction func addName(sender: AnyObject) {
+        let alert = UIAlertController(title: "New name", message: "Add a new name", preferredStyle: .Alert)
+        
+        /****** Actions for alert ******/
+        let saveAction = UIAlertAction(title: "Save", style: .Default, handler: { (action: UIAlertAction) -> Void in
+            let textField = alert.textFields!.first // Retrive text field from alert
+            self.names.append(textField!.text!) // Add to list of names
+            print("Added \(textField!.text!) to the list")
+            
+            self.tableView.reloadData() // Refresh table
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction) -> Void in
+            // Do nothing on cancel
+            print("Cancelled name input")
+        })
+        
+        alert.addTextFieldWithConfigurationHandler({ (textField: UITextField) -> Void in
+            // Do nothing
+        })
+        
+        alert.addAction(saveAction) // Add action to the alert
+        alert.addAction(cancelAction)
+        
+        presentViewController(alert, animated: true, completion: nil) // Present the alert
         
     }
     
