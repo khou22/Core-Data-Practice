@@ -21,6 +21,22 @@ class ViewController: UIViewController, UITableViewDataSource {
         title = "\"The List\"" // Set title
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate // Get App Delegate
+        let managedContext = appDelegate.managedObjectContext // Get the managed object context
+        
+        let fetchRequest = NSFetchRequest(entityName: "Person") // Get the entity objects from Core Data
+        
+        do {
+            let results = try managedContext.executeFetchRequest(fetchRequest) // Fetch results
+            people = results as! [NSManagedObject] // Store locally
+        } catch let error as NSError { // Catch errors
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
