@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView! // Main table view
-    var names = [String]() // Initialize empty array with type String
+    var people = [NSManagedObject]() // Initialize array of Core Data objects
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +32,9 @@ class ViewController: UIViewController, UITableViewDataSource {
         
         /****** Actions for alert ******/
         let saveAction = UIAlertAction(title: "Save", style: .Default, handler: { (action: UIAlertAction) -> Void in
+            
             let textField = alert.textFields!.first // Retrive text field from alert
-            self.names.append(textField!.text!) // Add to list of names
-            print("Added \(textField!.text!) to the list")
+            self.saveName(textField!.text!) // Save the name to Core Data
             
             self.tableView.reloadData() // Refresh table
         })
@@ -53,8 +54,28 @@ class ViewController: UIViewController, UITableViewDataSource {
         
     }
     
+    func saveName(name: String) { // Save to Core Data
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate // Access the app delegate in order to save to Core Data
+        let managedContext = appDelegate.managedObjectContext // Get managed object context
+        
+        let entity = NSEntityDescription.entityForName("Person", inManagedObjectContext: managedContext) // Identify the entity
+        
+        // Create a new instance of Core Data and store temporary on the managedContext
+        let person = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        
+        person.setValue(name, forKey: "name") // Set an attribute
+        
+        do {
+            try managedContext.save() // Save the temporary data to Core Data
+            print("Saved to core data")
+            people.append(person) // Also add to local data so don't have to be constantly reading Core Data
+        } catch let error as NSError {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
+        return people.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -62,7 +83,9 @@ class ViewController: UIViewController, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell")
         
-        cell!.textLabel?.text = names[rowIndex] // Set text of cell
+        let person = people[rowIndex]
+        
+        cell!.textLabel?.text = person.valueForKey("name") as? String // Set text of cell
         
         return cell!
     }
